@@ -4,12 +4,11 @@ use ieee.std_logic_1164.all;
 
 
 entity interface is
-port (CLOCK_50, reset, botaoSEL : in std_logic; --botaoSEL carrega A e B simultaneamente
-		entradaA, entradaB : in std_logic_vector (3 downto 0); -- switches
+port (clk, reset, botaoSEL : in std_logic; --botaoSEL carrega A e B simultaneamente
+		entradaA, entradaB : in std_logic_vector (3 downto 0); -- switches 
 		resultadoDISPLAY	  : out std_logic_vector(3 downto 0); --display pra A e B tbm
 		carry_borrowLED : out std_logic;
 		operacaoLED : out std_logic_vector(2 downto 0)
-		--ledsToShowInAndOut : out std_logic_vector (3 downto 0)); -- leds dos númerosx,y e result
 );
 end interface;
 
@@ -23,35 +22,22 @@ architecture behav of interface is
 		);
 	end component;
 	
---	component decodificador7seg
---		port (data_in:    in std_logic_vector (3 downto 0); --V_SW   : in std_logic_vector(3 downto 0);
---				data_out:   out std_logic_vector (6 downto 0) --G_HEX0 : out std_logic_vector(6 downto 0)
---		);
---	end component;
-	
---	component divisorFREQ
---		port (clk	: in std_logic;
---				reset	: in std_logic;
---				saida : out std_logic
---		);
---	end component;
 		
 	signal A, B, result: std_logic_vector(3 downto 0) := "0000";
 	signal carry_borrow: std_logic := '0';
 	signal operacao : std_logic_vector(2 downto 0) := "000";
-	--signal estado : std_logic := '0'; --0 = selecionando A e B / 1 = A e B selecionados
 	type tipo_estado is (entrada, saida);
 	signal estado : tipo_estado := entrada;
 	
 begin
 	alu: ULA port map (A, B, operacao, result, carry_borrow);
-	process(CLOCK_50, botaoSEL, reset)
+	process(clk, botaoSEL, reset)
 		--variable op: std_logic_vector(2 downto 0) := "000";
 		begin
 				resultadoDISPLAY <= result;
 				operacaoLED <= operacao;
 				carry_borrowLED <= carry_borrow;
-			if reset = '1' then --ajeitar a logica do botao dps
+			if reset = '1' then 			--AJEITAR A LOGICA DO BOTAO DPS!!!
 				estado <= entrada;
 				A <= "0000";
 				B <= "0000";
@@ -61,7 +47,7 @@ begin
 				A <= entradaA;
 				B <= entradaB;
 				operacao <= "000";
-			elsif (estado = saida and rising_edge(CLOCK_50))then
+			elsif (estado = saida and rising_edge(clk))then
 				
 					if operacao = "000" then
 						operacao <= "001";
@@ -83,8 +69,8 @@ begin
 			end if;
 	end process;
 	
---resultadoDISPLAY <= result;
---operacaoLED <= operacao;
---carry_borrowLED <= carry_borrow;
+resultadoDISPLAY <= result;
+operacaoLED <= operacao;
+carry_borrowLED <= carry_borrow;
 
 end behav;
