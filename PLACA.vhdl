@@ -43,14 +43,14 @@ architecture behav of PLACA is
 	
 begin
 
-	DIVfreq: divisorFREQ port map (CLOCK_50,V_BT(0),clk1seg);
+	DIVfreq: divisorFREQ port map (CLOCK_50,V_BT(0),clk1seg); -- entradas: clock 50 Mhz, Botao de Reset, saida: clock de 1 seg
 	
-	ITERF  : interface port map (clk1seg,V_BT(0),V_BT(1),
-										  V_SW(17 downto 14),V_SW(12 downto 9), --A,B
-										  resultado,G_LEDG(0),G_LEDR);  --result,carry/borrowOUT,operacao
+	ITERF  : interface port map (clk1seg,V_BT(0),V_BT(1), -- entrada: clock de 1 seg, reset, botao de seleção 
+										  V_SW(17 downto 14),V_SW(12 downto 9), -- entrada: A,B
+										  resultado,G_LEDG(0),G_LEDR);  -- saida: result,carry/borrowOUT,operacao
 										  
-	DECOD0 : decodificador7seg port map (V_SW(17 downto 14),G_HEX7); --A
-	DECOD1 : decodificador7seg port map (V_SW(12 downto 9) ,G_HEX6); --B
-	DECOD2 : decodificador7seg port map (resultado,G_HEX5); --result
+	DECOD0 : decodificador7seg port map (V_SW(17 downto 14),G_HEX7); --entrada: A, saida: display 7 seg entrada A
+	DECOD1 : decodificador7seg port map (V_SW(12 downto 9) ,G_HEX6); --entrada: B, saida: display 7 seg entrada B
+	DECOD2 : decodificador7seg port map (resultado,G_HEX5); --entrada: resultado, saida: display 7 seg resultado
 	
 end behav;

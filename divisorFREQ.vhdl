@@ -13,7 +13,7 @@ end divisorFREQ;
 
 architecture behav of divisorFREQ is
 
-	signal saida_aux : std_logic;
+	signal saida_aux : std_logic := '0';
 	signal contador  : integer range 0 to 49999999 := 0;
 	
 begin
