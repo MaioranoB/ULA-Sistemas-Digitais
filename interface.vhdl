@@ -37,12 +37,12 @@ begin
 				resultadoDISPLAY <= result;
 				operacaoLED <= operacao;
 				carry_borrowLED <= carry_borrow;
-			if reset = '1' then 			--AJEITAR A LOGICA DO BOTAO DPS!!!
+			if reset = '0' then 
 				estado <= entrada;
 				A <= "0000";
 				B <= "0000";
 				operacao <= "000";
-			elsif (estado = entrada and botaoSEL = '1')then --botao manda 0 quando eh apertado!! mudar isso dps
+			elsif (estado = entrada and botaoSEL = '0')then --botao manda 0 quando eh apertado!! mudar isso dps
 				estado <= saida;
 				A <= entradaA;
 				B <= entradaB;
