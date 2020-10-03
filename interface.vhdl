@@ -50,7 +50,6 @@ begin
 			elsif (estado = entrada and botaoSEL = '1') then --definindo AeB
 				A <= entradaA;
 				B <= entradaB;
-				result <= "0000";
 			elsif (estado = entrada and botaoSEL = '0')then --botao manda 0 quando eh apertado
 			--elsif (botaoSEL = '0' and operacao = "000")then --full GAMBIARRA pra funcionar sem ter q dar rst
 				estado <= saida;
