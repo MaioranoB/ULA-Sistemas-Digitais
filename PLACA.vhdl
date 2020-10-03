@@ -21,7 +21,8 @@ architecture behav of PLACA is
 				entradaA, entradaB   : in std_logic_vector (3 downto 0); -- switches 
 				resultadoDISPLAY	   : out std_logic_vector(3 downto 0); --display pra A e B tbm
 				carry_borrowLED      : out std_logic;
-				operacaoLED          : out std_logic_vector(2 downto 0)
+				operacaoLED          : out std_logic_vector(2 downto 0);
+				saidaA, saidaB			: out std_logic_vector(3 downto 0) -- saidas para display A e display B
 		);
 	end component;
 	
@@ -39,7 +40,9 @@ architecture behav of PLACA is
 	end component;
 		
 	signal clk1seg  : std_logic;
-	signal resultado:std_logic_vector(3 downto 0) := "0000";
+	signal resultado: std_logic_vector(3 downto 0) := "0000";
+	signal displayA : std_logic_vector(3 downto 0);
+	signal displayB : std_logic_vector(3 downto 0);
 	
 begin
 
@@ -47,10 +50,10 @@ begin
 	
 	ITERF  : interface port map (clk1seg,V_BT(0),V_BT(1), -- entrada: clock de 1 seg, reset, botao de seleção 
 										  V_SW(17 downto 14),V_SW(12 downto 9), -- entrada: A,B
-										  resultado,G_LEDG(0),G_LEDR);  -- saida: result,carry/borrowOUT,operacao
-										  
-	DECOD0 : decodificador7seg port map (V_SW(17 downto 14),G_HEX7); --entrada: A, saida: display 7 seg entrada A
-	DECOD1 : decodificador7seg port map (V_SW(12 downto 9) ,G_HEX6); --entrada: B, saida: display 7 seg entrada B
-	DECOD2 : decodificador7seg port map (resultado,G_HEX5); --entrada: resultado, saida: display 7 seg resultado
+										  resultado,G_LEDG(0),G_LEDR, displayA, displayB);  -- saida: result,carry/borrowOUT,operacao
+	
+	DECOD0 : decodificador7seg port map (displayA, G_HEX7); --entrada: A, saida: display 7 seg entrada A
+	DECOD1 : decodificador7seg port map (displayB, G_HEX6); --entrada: B, saida: display 7 seg entrada B
+	DECOD2 : decodificador7seg port map (resultado, G_HEX5); --entrada: resultado, saida: display 7 seg resultado
 	
 end behav;

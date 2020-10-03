@@ -6,9 +6,10 @@ use ieee.std_logic_1164.all;
 entity interface is
 port (clk, reset, botaoSEL : in std_logic; --botaoSEL carrega A e B simultaneamente
 		entradaA, entradaB : in std_logic_vector (3 downto 0); -- switches 
-		resultadoDISPLAY	  : out std_logic_vector(3 downto 0); --display pra A e B tbm
+		resultadoDISPLAY	  : out std_logic_vector(3 downto 0); --display pra resposta 
 		carry_borrowLED : out std_logic;
-		operacaoLED : out std_logic_vector(2 downto 0)
+		operacaoLED : out std_logic_vector(2 downto 0);
+		saidaA, saidaB : out std_logic_vector(3 downto 0) -- saida para display A e display B
 );
 end interface;
 
@@ -31,19 +32,26 @@ architecture behav of interface is
 	
 begin
 	alu: ULA port map (A, B, operacao, result, carry_borrow);
+	
+	resultadoDISPLAY <= result;
+	operacaoLED <= operacao;
+	carry_borrowLED <= carry_borrow;
+
 	process(clk, botaoSEL, reset)
 		--variable op: std_logic_vector(2 downto 0) := "000";
 		begin
-				resultadoDISPLAY <= result;
-				operacaoLED <= operacao;
-				carry_borrowLED <= carry_borrow;
-			if reset = '0' then 
+			if reset = '0' then 			-- botao manda 0 quando eh apertado
 				estado <= entrada;
 				A <= "0000";
 				B <= "0000";
 				operacao <= "000";
-			elsif (estado = entrada and botaoSEL = '0')then --botao manda 0 quando eh apertado!! mudar isso dps
+			elsif (estado = entrada and botaoSEL = '1') then
+				saidaA <= entradaA;
+				saidaB <= entradaB;
+			elsif (estado = entrada and botaoSEL = '0')then --botao manda 0 quando eh apertado
 				estado <= saida;
+				saidaA <= entradaA;
+				saidaB <= entradaB;
 				A <= entradaA;
 				B <= entradaB;
 				operacao <= "000";
@@ -68,9 +76,5 @@ begin
 					end if;
 			end if;
 	end process;
-	
-resultadoDISPLAY <= result;
-operacaoLED <= operacao;
-carry_borrowLED <= carry_borrow;
 
 end behav;
