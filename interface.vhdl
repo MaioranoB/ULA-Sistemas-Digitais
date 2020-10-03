@@ -8,7 +8,7 @@ port (clk, reset, botaoSEL : in std_logic; --botaoSEL carrega A e B simultaneame
 		entradaA, entradaB : in std_logic_vector (3 downto 0); -- switches
 		resultadoDISPLAY	  : out std_logic_vector(3 downto 0); --display pra A e B tbm
 		carry_borrowLED : out std_logic;
-		operacaoLED : out std_logic_vector(2 downto 0)
+		operacaoLED : out std_logic_vector(2 downto 0);
 		saidaA, saidaB : out std_logic_vector (3 downto 0) --
 );
 end interface;
@@ -26,6 +26,7 @@ architecture behav of interface is
 	signal A, B, result: std_logic_vector(3 downto 0) := "0000";
 	signal carry_borrow: std_logic := '0';
 	signal operacao : std_logic_vector(2 downto 0) := "000";
+	
 	type tipo_estado is (entrada, saida);
 	signal estado : tipo_estado := entrada;
 	
@@ -40,13 +41,13 @@ begin
 	
 	process(clk, botaoSEL, reset)
 		begin
-			if (reset = '1') then 	--AJEITAR A LOGICA DO BOTAO DPS!!!
+			if (reset = '0') then
 				estado <= entrada;
 				A <= "0000";
 				B <= "0000";
 				operacao <= "000";
-			elsif (estado = entrada and botaoSEL = '1')then --botao manda 0 quando eh apertado!! mudar isso dps
-			--elsif (botaoSEL = '1' and operacao = "000")then --botao manda 0 quando eh apertado!! mudar isso dps
+			--elsif (estado = entrada and botaoSEL = '0')then --botao manda 0 quando eh apertado!! mudar isso dps
+			elsif (botaoSEL = '0' and operacao = "000")then --full GAMBIARRA pra funcionar sem ter q dar rst
 				estado <= saida;
 				A <= entradaA;
 				B <= entradaB;
