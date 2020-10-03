@@ -29,6 +29,7 @@ architecture behav of interface is
 	
 	type tipo_estado is (entrada, saida);
 	signal estado : tipo_estado := entrada;
+
 	
 begin
 	alu: ULA port map (A, B, operacao, result, carry_borrow);
@@ -42,12 +43,16 @@ begin
 	process(clk, botaoSEL, reset)
 		begin
 			if (reset = '0') then
-				estado <= entrada;
+				estado <= entrada; 
 				A <= "0000";
 				B <= "0000";
 				operacao <= "000";
-			--elsif (estado = entrada and botaoSEL = '0')then --botao manda 0 quando eh apertado!! mudar isso dps
-			elsif (botaoSEL = '0' and operacao = "000")then --full GAMBIARRA pra funcionar sem ter q dar rst
+			elsif (estado = entrada and botaoSEL = '1') then --definindo AeB
+				A <= entradaA;
+				B <= entradaB;
+				result <= "0000";
+			elsif (estado = entrada and botaoSEL = '0')then --botao manda 0 quando eh apertado
+			--elsif (botaoSEL = '0' and operacao = "000")then --full GAMBIARRA pra funcionar sem ter q dar rst
 				estado <= saida;
 				A <= entradaA;
 				B <= entradaB;
