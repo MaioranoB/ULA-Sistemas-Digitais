@@ -47,9 +47,9 @@ architecture structure of ULA is
 	end component;
 	
 	begin
-	soma: somador4bit       port map (a, b, '0', result_soma, carryOUT);
-	diff: subtrator4bit     port map (a, b, '0', result_sub,  borrowOUT);
-	mult: multiplicador4bit port map (a, b, result_mult);
+	soma: somador4bit       port map (A, B, '0', result_soma, carryOUT);
+	diff: subtrator4bit     port map (A, B, '0', result_sub,  borrowOUT);
+	mult: multiplicador4bit port map (A, B, result_mult);
 	
 
 	with selection select
@@ -67,21 +67,5 @@ architecture structure of ULA is
 		carry_borrow_OUT <= carryOUT  when "000",
 								  borrowOUT when "001",
 								  '0' 		when others;
-	
-	
-	
-	
-	
---	case selection is
---		when "000" => result <= result_soma;
---		when "001" => result <= result_sub;
---		when "010" => result <= result_mult;
---		when "011" => result <= a and b;
---		when "100" => result <= a or b;
---		when "101" => result <= a xor b;
---		when "110" => result <= not a;
---		when "111" => result <= not b;
---		when others=> result <= "0000";
---	end case;
 	
 end structure;
