@@ -34,8 +34,6 @@ architecture behav of interface is
 begin
 	alu: ULA port map (A, B, operacao, result, carry_borrow);
 	
-	saidaA <= A;
-	saidaB <= B;
 	resultadoDISPLAY <= result;
 	operacaoLED <= operacao;
 	carry_borrowLED <= carry_borrow;
@@ -46,15 +44,19 @@ begin
 				estado <= entrada; 
 				A <= "0000";
 				B <= "0000";
+				saidaA <= "0000";
+				saidaB <= "0000";
 				operacao <= "000";
 			elsif (estado = entrada and botaoSEL = '1') then --definindo AeB
-				A <= entradaA;
-				B <= entradaB;
+				saidaA <= entradaA;
+				saidaB <= entradaB;
 			elsif (estado = entrada and botaoSEL = '0')then --botao manda 0 quando eh apertado
 			--elsif (botaoSEL = '0' and operacao = "000")then --full GAMBIARRA pra funcionar sem ter q dar rst
 				estado <= saida;
 				A <= entradaA;
 				B <= entradaB;
+				saidaA <= entradaA;
+				saidaB <= entradaB;
 				operacao <= "000";
 			elsif (estado = saida and rising_edge(clk))then
 				
