@@ -18,7 +18,7 @@ architecture structure of subtrator4bit is
 		);
 	end component;
 	
-	signal invertedB : std_logic_vector := not b;
+	signal invertedB : std_logic_vector(3 downto 0) := not b;
 	signal somadorCarryOut: std_logic;
 	
 begin
