@@ -4,7 +4,7 @@
 --                a3b0 a2b0 a1b0 a0b0
 --           a3b1 a2b1 a1b1 a0b1
 --      a3b2 a2b2 a1b2 a0b2
--- a3b3 a2b3 a1b3 a0b3                    +
+-- a3b3 a2b3 a1b3 a0b3 carry_anterior                 +
 -------------------------------------------
 -- mul6 mul5 mul4 mul3 mul2 mul1 mul0
 
